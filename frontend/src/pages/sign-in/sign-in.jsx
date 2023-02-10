@@ -19,7 +19,7 @@ export const SignIn = () => {
                         <input type="checkbox" id="remember-me"/>
                         <label htmlFor="remember-me">Remember me</label>
                     </div>
-                    <a href={'/sign-in'} className="sign-in-button">Sign In</a>
+                    <a href={'/user'} className="sign-in-button">Sign In</a>
                 </form>
             </section>
         </main>

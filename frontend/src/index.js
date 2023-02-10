@@ -7,6 +7,7 @@ import {MainNav} from './components/main-nav/main-nav';
 import {Footer} from './components/footer/footer';
 import Home from './pages/home/home';
 import {SignIn} from './pages/sign-in/sign-in';
+import {User} from './pages/user/user';
 
 const router = createBrowserRouter([
     {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
     {
         path: '/sign-in',
         element: <SignIn/>,
+    },
+    {
+        path: '/user',
+        element: <User/>,
     },
 ]);
 
