@@ -4,6 +4,11 @@
   align-items: center;
   padding: 5px 20px;
 
+  .main-nav-flex{
+    display: flex;
+    gap: 10px;
+  }
+
   .main-nav-logo {
     display: flex;
     align-items: center;
@@ -31,7 +36,8 @@
   .main-nav-item {
     display: flex;
     justify-content: space-between;
-    width: 73.68px;
+    width: fit-content;
+    gap: 5px;
     text-decoration: none;
     margin-right: 0.5rem;
   }
