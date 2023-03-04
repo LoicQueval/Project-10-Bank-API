@@ -1,14 +1,14 @@
 import './main-nav.scss'
 import logo from '../../assets/img/argentBankLogo.png'
-import {userLogin, userLogout} from '../../services/auth';
+import {userLogout} from '../../services/auth';
 
 export const MainNav = () => {
     const cookies = document.cookie.split(';');
     const tokenCookie = cookies.find(cookie => cookie.trim().startsWith('access_token='));
     const accessToken = tokenCookie ? tokenCookie.split('=')[1] : null;
 
-    const logoutOnClick = (e) => {
-        userLogout()
+    const logoutOnClick = () => {
+        userLogout();
     }
 
     return (

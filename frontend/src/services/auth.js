@@ -26,9 +26,8 @@ export const userLogin = (email, password) => {
         });
 }
 export const userLogout = () => {
-    document.cookie = 'access_token' + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 }
-
 export const getUserData = async () => {
     const cookies = document.cookie.split(';');
     const tokenCookie = cookies.find(cookie => cookie.trim().startsWith('access_token='));
@@ -38,7 +37,7 @@ export const getUserData = async () => {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${accessToken}`
-        }
+        },
     })
         .then(async (res) => {
             if (res.ok) {
@@ -46,6 +45,33 @@ export const getUserData = async () => {
                 return (response.body)
             } else {
                 document.location.href = '/login'
+            }
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
+export const putUserData = async (firstName, lastName) => {
+    const cookies = document.cookie.split(';');
+    const tokenCookie = cookies.find(cookie => cookie.trim().startsWith('access_token='));
+    const accessToken = tokenCookie ? tokenCookie.split('=')[1] : null;
+
+    return await fetch('http://localhost:3001/api/v1/user/profile', {
+        method: 'PUT',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            firstName: firstName,
+            lastName: lastName,
+        })
+    })
+        .then(async (res) => {
+            if (res.ok) {
+                const response = await res.json();
+                document.location.href = '/profile'
+                return (response)
             }
         })
         .catch(error => {

@@ -2,7 +2,6 @@ import './home.scss'
 import chatIcon from '../../assets/img/icon-chat.png'
 import moneyIcon from '../../assets/img/icon-money.png'
 import securityIcon from '../../assets/img/icon-security.png'
-
 function Home() {
     return (<>
             <main>
@@ -53,5 +52,4 @@ function Home() {
         </>
     );
 }
-
 export default Home;
