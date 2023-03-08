@@ -60,7 +60,7 @@ paths:
   /user/profile:
     post:
       security:
-        - Bearer: []
+        - Bearer: [ ]
       tags:
         - User Module
       summary: User Profile API
@@ -74,7 +74,7 @@ paths:
         - application/json
       responses:
         '200':
-          description: User profile retrieved successully
+          description: User profile retrieved successfully
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
@@ -83,7 +83,7 @@ paths:
           description: Internal Server Error
     put:
       security:
-        - Bearer: []
+        - Bearer: [ ]
       tags:
         - User Module
       summary: User Profile API
@@ -103,11 +103,118 @@ paths:
         - application/json
       responses:
         '200':
-          description: User profile retrieved successully
+          description: User profile retrieved successfully
           schema:
             $ref: '#/definitions/ApiResponse'
         '400':
           description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /accounts:
+    get:
+      tags:
+        - Account Module
+      summary: User Account API
+      description: API for fetching user accounts
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User accounts retrieved successfully
+          schema:
+            $ref: '#/definitions/UserAccountsResponse'
+        '400':
+          description: Invalid Fields
+        '403':
+          description: User is not logging
+        '500':
+          description: Internal Server Error
+  /accounts/:id/transactions:
+    get:
+      tags:
+        - Account Module
+      summary: User Account API
+      description: API for fetching user account transactions
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User Transaction retrieved successfully
+          schema:
+            $ref: '#/definitions/UserAccountResponse'
+        '400':
+          description: Invalid Fields
+        '403':
+          description: User is not logging
+        '404':
+          description: Account does not exist
+        '500':
+          description: Internal Server Error
+  /accounts/:id/transactions/:transactionId:
+    get:
+      tags:
+        - Account Module
+      summary: User Account API
+      description: API for fetching user account transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User Transaction retrieved successfully
+          schema:
+            $ref: '#/definitions/TransactionResponse'
+        '400':
+          description: Invalid Fields
+        '403':
+          description: User is not logging
+        '404':
+          description: Account or transactions does not exist
+        '500':
+          description: Internal Server Error
+    patch:
+      tags:
+        - Account Module
+      summary: User Account API
+      description: API for update a user account transaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          required: true
+        - in: body
+          name: body
+          description: update user account transaction
+          required: true
+          schema:
+            $ref: '#/definitions/PatchTransaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User Transaction retrieved successfully
+          schema:
+            $ref: '#/definitions/PatchResponse'
+        '400':
+          description: Invalid Fields
+        '403':
+          description: User is not logging
+        '404':
+          description: Account or transactions does not exist
         '500':
           description: Internal Server Error
 securityDefinitions:
@@ -164,3 +271,115 @@ definitions:
         type: string
       lastName:
         type: string
+  PatchTransaction:
+    type: object
+    properties:
+      category:
+        type: string
+      notes:
+        type: string
+  PatchResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      messages:
+        type: string
+      body:
+        type: object
+        properties:
+          id:
+            type: string
+          category:
+            type: string
+          notes:
+            type: string
+  UserAccountsResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: array
+        xml:
+          wrapped: true
+        items:
+          $ref: '#/components/schemas/Accounts'
+  UserAccountResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          id:
+            type: string
+          name:
+            type: string
+          transactions:
+            type: array
+            xml:
+              wrapped: true
+            items:
+              $ref: '#/components/schemas/Transaction'
+  TransactionResponse:
+    type: object
+    properties:
+      id:
+        type: string
+      amount:
+        type: number
+      date:
+        type: string
+      description:
+        type: string
+      tag:
+        type: string
+      category:
+        type: string
+      notes:
+        type: string
+  AccountProfile:
+    type: object
+    properties:
+      id:
+        type: string
+components:
+  schemas:
+    Accounts:
+      type: object
+      properties:
+        id:
+          type: string
+        accountTitle:
+          type: string
+        amount:
+          type: number
+        ratio:
+          type: number
+      xml:
+        name: accounts
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+        amount:
+          type: number
+        date:
+          type: string
+        description:
+          type: string
+        tag:
+          type: string
+        category:
+          type: string
+        notes:
+          type: string
+      xml:
+        name: transaction
