@@ -5,7 +5,7 @@ const initialState = {
     firstName: '',
     lastName: '',
     edit: false,
-    error: null,
+    error: '',
 };
 
 const SUBMIT_FORM = 'SUBMIT_FORM';
@@ -48,6 +48,6 @@ export function editable(edit) {
     return {type: EDITABLE, payload: {edit}}
 }
 
-export function error(error) {
+export function isError(error) {
     return {type: ERROR, payload: {error}}
 }
