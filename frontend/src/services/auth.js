@@ -17,16 +17,19 @@ export const userLogin = (email, password) => {
                     document.location.href = '/profile'
                     return (response)
                 } else {
-                    console.error('Retour du serveur : ', res.status)
+                    const response = await res.json();
+                    throw new Error(response.message);
                 }
             }
         )
         .catch(error => {
             console.log(error);
+            throw error;
         });
 }
 export const userLogout = () => {
     document.cookie = 'access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.location.href = '/'
 }
 export const getUserData = async () => {
     const cookies = document.cookie.split(';');

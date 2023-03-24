@@ -14,7 +14,7 @@ export const User = () => {
     useEffect(() => {
         getUserData()
             .then(data => dispatch(getData(data)))
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         if (firstName || lastName) {

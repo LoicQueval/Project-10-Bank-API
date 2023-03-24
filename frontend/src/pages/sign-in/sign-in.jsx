@@ -2,16 +2,24 @@ import './sign-in.scss'
 import {userLogin} from '../../services/auth';
 import {submitForm} from '../../services/redux';
 import {connect, useDispatch, useSelector} from 'react-redux';
+import {useEffect} from 'react';
 
 export const SignIn = () => {
     const dispatch = useDispatch();
     const email = useSelector(state => state.email);
     const password = useSelector(state => state.password);
-    const handleSubmit = (e) => {
+    const error = false
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(submitForm(e.target.username.value, e.target.password.value));
-        userLogin(email, password);
+        dispatch(submitForm(e.target.username.value, e.target.password.value))
     }
+
+    useEffect(() => {
+        if (email && password) {
+            userLogin(email.value, password.value);
+        }
+    }, [email, password]);
 
     return (
         <main className="main bg-dark">
@@ -19,6 +27,7 @@ export const SignIn = () => {
                 <i className="fa fa-user-circle sign-in-icon"></i>
                 <h1>Sign In</h1>
                 <form onSubmit={handleSubmit}>
+                    <div className="error-message">Erreur {error}</div>
                     <div className="input-wrapper">
                         <label htmlFor="username">Username</label>
                         <input type="email" id="username"/>

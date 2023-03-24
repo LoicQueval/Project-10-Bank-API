@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import {MainNav} from './components/main-nav/main-nav';
 import {Footer} from './components/footer/footer';
 import Home from './pages/home/home';
@@ -12,36 +12,24 @@ import {Provider} from 'react-redux';
 import {rootReducer} from './services/redux';
 import {createStore} from 'redux';
 
-
-const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <Home/>,
-    },
-    {
-        path: '/login',
-        element: <SignIn/>,
-    },
-    {
-        path: '/profile',
-        element: <User/>,
-    },
-]);
+const store = createStore(rootReducer);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const store = createStore(rootReducer);
 
 root.render(
     <React.StrictMode>
         <Provider store={store}>
-            <MainNav/>
-            <RouterProvider router={router}/>
-            <Footer/>
+            <Router>
+                <MainNav/>
+                <Routes>
+                    <Route path="/" exact element={<Home/>}/>
+                    <Route path="/login" element={<SignIn/>}/>
+                    <Route path="/profile" element={<User/>}/>
+                </Routes>
+                <Footer/>
+            </Router>
         </Provider>
     </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

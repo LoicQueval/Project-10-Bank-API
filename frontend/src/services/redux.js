@@ -5,12 +5,14 @@ const initialState = {
     firstName: '',
     lastName: '',
     edit: false,
+    error: null,
 };
 
 const SUBMIT_FORM = 'SUBMIT_FORM';
 const GET_DATA = 'GET_DATA';
 const PUT_DATA = 'PUT_DATA';
 const EDITABLE = 'EDITABLE';
+const ERROR = 'ERROR';
 
 export function rootReducer(state = initialState, action) {
     console.log('Prev state' + state);
@@ -23,6 +25,8 @@ export function rootReducer(state = initialState, action) {
             return {...state, firstName: action.payload.firstName, lastName: action.payload.lastName}
         case EDITABLE:
             return {...state, edit: action.payload.edit}
+        case ERROR:
+            return {...state, error: action.payload.error}
         default:
             return state;
     }
@@ -42,4 +46,8 @@ export function putData(firstName, lastName) {
 
 export function editable(edit) {
     return {type: EDITABLE, payload: {edit}}
+}
+
+export function error(error) {
+    return {type: ERROR, payload: {error}}
 }
